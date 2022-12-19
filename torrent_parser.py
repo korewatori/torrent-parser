@@ -1,7 +1,7 @@
 import argparse
 import bencodepy
 
-def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False):
+def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False):
     with open(torrent_file, "rb") as f:
         torrent_contents = f.read()
 
@@ -33,6 +33,10 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False):
             file_info.sort(key=lambda x: x[1], reverse=True)
     else:
         file_info.sort(key=lambda x: x[0])
+    if show_in_bytes:
+        file_info = [(file_name, file_size) for file_name, file_size in file_info]
+    else:
+        file_info = [(file_name, format_size(file_size)) for file_name, file_size in file_info]
 
     return file_info
 
@@ -61,15 +65,22 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--output", help="output file for the list of files")
     parser.add_argument("-s", "--sort-by-smallest", action="store_true", help="sort the list by size with the smallest files first")
     parser.add_argument("-l", "--sort-by-largest", action="store_true", help="sort the list by size with the largest files first")
+    parser.add_argument("-b", "--show-in-bytes", action="store_true", help="display file sizes in bytes rather than in a human readable way")
     args = parser.parse_args()
 
-    file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest)
+    file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes)
 
     if args.output:
         with open(args.output, "w") as f:
             for file_name, file_size in file_info:
-                f.write("{} ({})\n".format(file_name, format_size(file_size)))
+                if args.show_in_bytes:
+                    f.write("{} ({} bytes)\n".format(file_name, file_size))
+                else:
+                    f.write("{} ({})\n".format(file_name, file_size))
     else:
         # If no output file is specified, print the list of files to the console
         for file_name, file_size in file_info:
-            print("{} ({})".format(file_name, format_size(file_size)))
+            if args.show_in_bytes:
+                print("{} ({} bytes)".format(file_name, file_size))
+            else:
+                print("{} ({})".format(file_name, file_size))
