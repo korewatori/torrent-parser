@@ -5,7 +5,7 @@ This script can generate a file list for a torrent, in order of either alphabeti
 ## Usage
 ### torrent_parser.py
 ```
-usage: torrent_parser_v5.py [-h] [-o OUTPUT] [-s] [-l] torrent_file
+usage: torrent_parser.py [-h] [-o OUTPUT] [-s] [-l] torrent_file
 
 positional arguments:
   torrent_file          the torrent file to parse
