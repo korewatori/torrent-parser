@@ -7,11 +7,16 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False):
 
     decoded_torrent = bencodepy.decode(torrent_contents)
 
-    # Get the list of files from the decoded torrent
-    if isinstance(decoded_torrent[b'info'][b'files'], list):
-        file_list = decoded_torrent[b'info'][b'files']
+        # Get the list of files from the decoded torrent
+    if b'files' in decoded_torrent[b'info']:
+        if isinstance(decoded_torrent[b'info'][b'files'], list):
+            file_list = decoded_torrent[b'info'][b'files']
+        else:
+            file_list = [decoded_torrent[b'info'][b'files']]
     else:
-        file_list = [decoded_torrent[b'info'][b'files']]
+        # If the 'files' field is not present, then the torrent file only contains a single file
+        file_list = [{b'path': [decoded_torrent[b'info'][b'name']], b'length': decoded_torrent[b'info'][b'length']}]
+
 
     # Extract the file names and sizes from the file list
     file_info = []
@@ -38,13 +43,16 @@ def format_size(size):
         return "{} bytes".format(size)
     elif size < 1048576:
         # If the size is less than 1048576 bytes (1 MB), return it in KB
-        return "{:.1f} KB".format(size / 1024)
+        return "{:.2f} KB".format(size / 1024)
     elif size < 1073741824:
         # If the size is less than 1073741824 bytes (1 GB), return it in MB
-        return "{:.1f} MB".format(size / 1048576)
+        return "{:.2f} MB".format(size / 1048576)
+    elif size < 1099511627776:
+        # If the size is less than 1099511627776 bytes (1 TB), return it in GB
+        return "{:.2f} GB".format(size / 1073741824)
     else:
-        # If the size is larger than 1 GB, return it in GB
-        return "{:.1f} GB".format(size / 1073741824)
+        # If the size is larger than 1099511627776 (1 TB), return it in TB
+        return "{:.2f} TB".format(size / 1099511627776)
 
     
 if __name__ == '__main__':
