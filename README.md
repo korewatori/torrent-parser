@@ -1,6 +1,9 @@
 # torrent-parser
 A very simple Python torrent parser that I hacked together in a few hours. At the moment there are only options for generating a file list but I plan to include more with it.
-This script can generate a file list for a torrent, in order of either alphabetical, smallest file first or largest file first. Sizes of the files in the torrent are displayed in (bytes/KB/MB/GB) in brackets next to the path of the file 
+
+This script can generate a file list for a torrent, in order of either alphabetical, smallest file first or largest file first.
+
+Sizes of the files in the torrent are displayed in (bytes/KB/MB/GB/TB) in brackets next to the path of the file.
 
 ## Usage
 ### torrent_parser.py
