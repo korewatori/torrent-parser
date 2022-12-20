@@ -78,6 +78,16 @@ def display_torrent_info(torrent_file, output_file=None):
         unix_timestamp_createdAt = decoded_torrent[b'creation date']
         human_date = datetime.datetime.fromtimestamp(unix_timestamp_createdAt).strftime('%Y-%m-%d %H:%M:%S')
         
+     # Extract the announce URLs
+    if b'announce' in decoded_torrent:
+        announce_urls = decoded_torrent[b'announce']
+        if isinstance(announce_urls, list):
+            announce_urls = [url.decode('utf-8') for url in announce_urls]
+        else:
+            announce_urls = [announce_urls.decode('utf-8')]
+    else:
+        announce_urls = ["N/A"]    
+    
         
     is_private = b'private' in decoded_torrent[b'info'] and decoded_torrent[b'info'][b'private'] == 1
     file_info = parse_torrent_file(torrent_file)
@@ -110,7 +120,10 @@ def display_torrent_info(torrent_file, output_file=None):
        # output_file.write("UNIX timestamp: {}\n".format(unix_timestamp_createdAt))
         output_file.write("Number of files: {}\n".format(len(file_list)))
         output_file.write("Total file size of file(s) in torrent: {}\n".format(format_size(total_size)))
-        output_file.write("Private?: {}\n".format(is_private))
+        output_file.write("\nAnnounce URL(s):\n")
+        for url in announce_urls:
+                output_file.write("{}\n".format(url))
+        output_file.write("\nPrivate?: {}\n".format(is_private))
     else:
         print("\n- - - - - Details for {}: - - - - -\n".format(torrent_file_name))
         print("Name: {}".format(name))
@@ -118,6 +131,9 @@ def display_torrent_info(torrent_file, output_file=None):
       #  print("UNIX timestamp: {}".format(unix_timestamp_createdAt))
         print("Number of files: {}".format(len(file_list)))
         print("Total file size of file(s) in torrent: {}".format(format_size(total_size)))
+        print("\nAnnounce URL(s):")
+        for url in announce_urls:
+                print("{}\n".format(url))
         print("Private?: {}".format(is_private))
 
 if __name__ == "__main__":
