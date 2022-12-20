@@ -67,19 +67,21 @@ def display_torrent_info(torrent_file, output_file=None):
 
     decoded_torrent = bencodepy.decode(torrent_contents)
 
-    # Extract the torrent name and creation date
+      # Extract the torrent name and creation date
     if b'name' in decoded_torrent[b'info']:
         name = decoded_torrent[b'info'][b'name'].decode('utf-8')
     else:
         name = "Unknown"
+
+    human_date = "Unknown"  # Set default value for human_date
     if b'creation date' in decoded_torrent:
         unix_timestamp_createdAt = decoded_torrent[b'creation date']
         human_date = datetime.datetime.fromtimestamp(unix_timestamp_createdAt).strftime('%Y-%m-%d %H:%M:%S')
-    else:
-        unix_timestamp_createdAt = "Unknown"
         
-
-
+        
+    is_private = b'private' in decoded_torrent[b'info'] and decoded_torrent[b'info'][b'private'] == 1
+    file_info = parse_torrent_file(torrent_file)
+    
     # Get the list of files from the decoded torrent
     if b'files' in decoded_torrent[b'info']:
         if isinstance(decoded_torrent[b'info'][b'files'], list):
@@ -102,12 +104,13 @@ def display_torrent_info(torrent_file, output_file=None):
     # Print or write the torrent info to the console or file
     total_size = sum(file[b'length'] for file in file_list)
     if output_file:
-        output_file.write("\n- - - - - Details for {}: - - - - -\n".format(torrent_file_name))
+        output_file.write("- - - - - Details for {}: - - - - -\n\n".format(torrent_file_name))
         output_file.write("Name: {}\n".format(name))
         output_file.write("Torrent creation date: {}\n".format(human_date))
        # output_file.write("UNIX timestamp: {}\n".format(unix_timestamp_createdAt))
         output_file.write("Number of files: {}\n".format(len(file_list)))
         output_file.write("Total file size of file(s) in torrent: {}\n".format(format_size(total_size)))
+        output_file.write("Private?: {}\n".format(is_private))
     else:
         print("\n- - - - - Details for {}: - - - - -\n".format(torrent_file_name))
         print("Name: {}".format(name))
@@ -115,6 +118,7 @@ def display_torrent_info(torrent_file, output_file=None):
       #  print("UNIX timestamp: {}".format(unix_timestamp_createdAt))
         print("Number of files: {}".format(len(file_list)))
         print("Total file size of file(s) in torrent: {}".format(format_size(total_size)))
+        print("Private?: {}".format(is_private))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
