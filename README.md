@@ -1,5 +1,5 @@
 # torrent-parser
-A very simple Python torrent parser that I hacked together in a few hours. At the moment there are only options for generating a file list but I plan to include more with it.
+A very simple Python torrent parser that I hacked together in a few hours. At the moment this only returns basic information about torrents and cannot properly encode/decode torrents or create them (yet).
 
 This script can generate a file list for a torrent, in order of either alphabetical, smallest file first or largest file first. It can also tell you information about the torrent file such as when it was created and how many files it has (not in a list).
 
