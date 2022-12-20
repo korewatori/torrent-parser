@@ -27,10 +27,6 @@ optional arguments:
 ```
 
 ## Examples
-Generating a file list for a torrent file sorted alphanumerically, outputting the list to a txt file in the current directory called "file_list.txt":
-```
-torrent_parser.py files <torrent_file.torrent> -o file_list.txt
-```
 Generating a file list for a torrent file sorted by largest file first, outputting the list to a txt file in the current directory called "file_list.txt":
 ```
 torrent_parser.py files <torrent_file.torrent> -l -o file_list.txt
@@ -39,9 +35,13 @@ Generating a file list for a torrent file sorted by smallest file first, outputt
 ```
 torrent_parser.py files <torrent_file.torrent> -s -o file_list.txt
 ```
-Getting information about the torrent: list for a torrent, outputting the info to a txt file in the current directory called "file_list.txt":
+Getting information about the torrent, outputting the information to a txt file in the current directory called "file_list.txt":
 ```
 torrent_parser.py info <torrent_file.torrent> -o file_list.txt
+```
+Generating a magnet link from the provided torrent file, outputting the link to the console:
+```
+torrent_parser.py magnet <torrent_file.torrent>
 ```
 
 Note: the above script requires Python 3.
