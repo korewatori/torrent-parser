@@ -2,6 +2,7 @@ import argparse
 import bencodepy
 import os
 import datetime
+import hashlib
 
 def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False):
     with open(torrent_file, "rb") as f:
@@ -138,7 +139,7 @@ def display_torrent_info(torrent_file, output_file=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["files", "info"], help="The command to execute")
+    parser.add_argument("command", choices=["info", "files", "magnet"], help="The command to execute")
     parser.add_argument("torrent_file", help="The path to the torrent file")
     parser.add_argument("-o", "--output", help="The file to output the results to")
     parser.add_argument("-s", "--sort-by-smallest", action="store_true", help="Sort the file list by size (smallest first)")
@@ -147,6 +148,15 @@ if __name__ == "__main__":
     parser.add_argument("--no-file-size", action="store_true", help="Do not show file sizes in the file list")
     args = parser.parse_args()
 
+def generate_magnet_link(torrent_file):
+    with open(torrent_file, "rb") as f:
+        torrent_contents = f.read()
+
+    decoded_torrent = bencodepy.decode(torrent_contents)
+    info_hash = hashlib.sha1(bencodepy.encode(decoded_torrent[b'info'])).hexdigest()
+    magnet_link = f"magnet:?xt=urn:btih:{info_hash}"
+
+    return magnet_link
 
 if args.command == "files":
     file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes)
@@ -175,3 +185,8 @@ elif args.command == "info":
             display_torrent_info(args.torrent_file, output_file=f)
     else:
         display_torrent_info(args.torrent_file)
+
+if args.command == "magnet":
+    magnet_link = generate_magnet_link(args.torrent_file)
+    torrent_file_name = os.path.basename(args.torrent_file)
+    print("Magnet link for " + torrent_file_name + " \n" + magnet_link)
