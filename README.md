@@ -8,10 +8,10 @@ Sizes of the files in the torrent are displayed in (bytes/KB/MB/GB/TB) in bracke
 ## Usage
 ### torrent_parser.py
 ```
-usage: torrent_parser.py [-h] [-o OUTPUT] [-s] [-l] [-b] [--no-file-size] {files,info} torrent_file
+usage: torrent_parser.py [-h] [-o OUTPUT] [-s] [-l] [-b] [--no-file-size] {info,files,magnet} torrent_file
 
 positional arguments:
-  {files,info}          The command to execute
+  {info,files,magnet}   The command to execute
   torrent_file          The path to the torrent file
 
 optional arguments:
@@ -22,8 +22,8 @@ optional arguments:
                         Sort the file list by size (smallest first)
   -l, --sort-by-largest
                         Sort the file list by size (largest first)
-  -b, --show-in-bytes   Show file sizes in bytes rather than in a human readable way
-  --no-file-size        Do not show file sizes in the file list, show purely files
+  -b, --show-in-bytes   Show file sizes in bytes
+  --no-file-size        Do not show file sizes in the file list
 ```
 
 ## Examples
