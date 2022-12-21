@@ -112,6 +112,9 @@ def display_torrent_info(torrent_file, output_file=None):
     # Get the file name of the torrent file
     torrent_file_name = os.path.basename(torrent_file)
 
+    # Get the hash of the torrent
+    info_hash = hashlib.sha1(bencodepy.encode(decoded_torrent[b'info'])).hexdigest()
+
     # Print or write the torrent info to the console or file
     total_size = sum(file[b'length'] for file in file_list)
     if output_file:
@@ -121,6 +124,7 @@ def display_torrent_info(torrent_file, output_file=None):
        # output_file.write("UNIX timestamp: {}\n".format(unix_timestamp_createdAt))
         output_file.write("Number of files: {}\n".format(len(file_list)))
         output_file.write("Total file size of file(s) in torrent: {}\n".format(format_size(total_size)))
+        output_file.write("Torrent infohash: {}\n".format(info_hash))
         output_file.write("\nAnnounce URL(s):\n")
         for url in announce_urls:
                 output_file.write("{}\n".format(url))
@@ -132,6 +136,7 @@ def display_torrent_info(torrent_file, output_file=None):
       #  print("UNIX timestamp: {}".format(unix_timestamp_createdAt))
         print("Number of files: {}".format(len(file_list)))
         print("Total file size of file(s) in torrent: {}".format(format_size(total_size)))
+        print("Torrent infohash: {}".format(info_hash))        
         print("\nAnnounce URL(s):")
         for url in announce_urls:
                 print("{}\n".format(url))
