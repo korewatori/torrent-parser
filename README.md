@@ -8,10 +8,10 @@ Sizes of the files in the torrent are displayed in (bytes/KB/MB/GB/TB) in bracke
 ## Usage
 ### torrent_parser.py
 ```
-usage: torrent_parser.py [-h] [-o OUTPUT] [-s] [-l] [-b] [--no-file-size] {files,info} torrent_file
+usage: torrent_parser.py [-h] [-o OUTPUT] [-s] [-l] [-b] [--no-file-size] {info,files,magnet} torrent_file
 
 positional arguments:
-  {files,info}          The command to execute
+  {info,files,magnet}   The command to execute
   torrent_file          The path to the torrent file
 
 optional arguments:
@@ -22,15 +22,11 @@ optional arguments:
                         Sort the file list by size (smallest first)
   -l, --sort-by-largest
                         Sort the file list by size (largest first)
-  -b, --show-in-bytes   Show file sizes in bytes rather than in a human readable way
-  --no-file-size        Do not show file sizes in the file list, show purely files
+  -b, --show-in-bytes   Show file sizes in bytes
+  --no-file-size        Do not show file sizes in the file list
 ```
 
 ## Examples
-Generating a file list for a torrent file sorted alphanumerically, outputting the list to a txt file in the current directory called "file_list.txt":
-```
-torrent_parser.py files <torrent_file.torrent> -o file_list.txt
-```
 Generating a file list for a torrent file sorted by largest file first, outputting the list to a txt file in the current directory called "file_list.txt":
 ```
 torrent_parser.py files <torrent_file.torrent> -l -o file_list.txt
@@ -39,9 +35,13 @@ Generating a file list for a torrent file sorted by smallest file first, outputt
 ```
 torrent_parser.py files <torrent_file.torrent> -s -o file_list.txt
 ```
-Getting information about the torrent: list for a torrent, outputting the info to a txt file in the current directory called "file_list.txt":
+Getting information about the torrent, outputting the information to a txt file in the current directory called "file_list.txt":
 ```
 torrent_parser.py info <torrent_file.torrent> -o file_list.txt
+```
+Generating a magnet link from the provided torrent file, outputting the link to the console:
+```
+torrent_parser.py magnet <torrent_file.torrent>
 ```
 
 Note: the above script requires Python 3.
