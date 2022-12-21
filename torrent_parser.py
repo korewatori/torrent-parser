@@ -123,7 +123,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("Torrent creation date: {}\n".format(human_date))
        # output_file.write("UNIX timestamp: {}\n".format(unix_timestamp_createdAt))
         output_file.write("Number of files: {}\n".format(len(file_list)))
-        output_file.write("Total file size of file(s) in torrent: {}\n".format(format_size(total_size)))
+        output_file.write("Total size: {}\n".format(format_size(total_size)))
         output_file.write("Torrent infohash: {}\n".format(info_hash))
         output_file.write("\nAnnounce URL(s):\n")
         for url in announce_urls:
@@ -135,7 +135,7 @@ def display_torrent_info(torrent_file, output_file=None):
         print("Torrent creation date: {}".format(human_date))
       #  print("UNIX timestamp: {}".format(unix_timestamp_createdAt))
         print("Number of files: {}".format(len(file_list)))
-        print("Total file size of file(s) in torrent: {}".format(format_size(total_size)))
+        print("Total size: {}".format(format_size(total_size)))
         print("Torrent infohash: {}".format(info_hash))        
         print("\nAnnounce URL(s):")
         for url in announce_urls:
