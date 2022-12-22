@@ -230,4 +230,4 @@ if args.command == "magnet":
         clear_console()
     magnet_link = generate_magnet_link(args.torrent_file)
     torrent_file_name = os.path.basename(args.torrent_file)
-    print("Magnet link for " + torrent_file_name + " \n" + magnet_link)
+    print("Magnet link for " + torrent_file_name + ": \n" + magnet_link)
