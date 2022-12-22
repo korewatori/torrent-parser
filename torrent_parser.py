@@ -138,7 +138,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("Torrent infohash: {}\n".format(info_hash))
         output_file.write("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))
         if announce_urls:
-            output_file.write("Announce URL(s):\n")
+            output_file.write("\nAnnounce URL(s):\n")
             for url in announce_urls:
                 output_file.write("{}\n".format(url))
         else:
