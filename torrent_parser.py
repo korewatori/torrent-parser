@@ -156,10 +156,10 @@ def display_torrent_info(torrent_file, output_file=None):
         if announce_urls:
             print("Announce URL(s):")
             for url in announce_urls:
-                print("{}\n".format(url))
+                print("{}".format(url))
         else:
                 print("Announce URL(s): N/A\n")
-        print("Comment: \n{}\n".format(comment))
+        print("\nComment: \n{}\n".format(comment))
         print("Private?: {}".format(is_private))
 
 if __name__ == "__main__":
