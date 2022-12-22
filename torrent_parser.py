@@ -80,15 +80,13 @@ def display_torrent_info(torrent_file, output_file=None):
         unix_timestamp_createdAt = decoded_torrent[b'creation date']
         human_date = datetime.datetime.fromtimestamp(unix_timestamp_createdAt).strftime("%Y-%m-%d %H:%M:%S")
         
-     # Extract the announce URLs
-    if b'announce' in decoded_torrent:
-        announce_urls = decoded_torrent[b'announce']
-        if isinstance(announce_urls, list):
-            announce_urls = [url.decode('utf-8') for url in announce_urls]
-        else:
-            announce_urls = [announce_urls.decode('utf-8')]
+    # Extract the announce URLs from the torrent
+    if b'announce-list' in decoded_torrent:
+        announce_urls = [url.decode('utf-8') for url_list in decoded_torrent[b'announce-list'] for url in url_list]
+    elif b'announce' in decoded_torrent:
+        announce_urls = [decoded_torrent[b'announce'].decode('utf-8')]
     else:
-        announce_urls = ["N/A"]    
+        announce_urls = []
     
         
     is_private = b'private' in decoded_torrent[b'info'] and decoded_torrent[b'info'][b'private'] == 1
@@ -139,9 +137,12 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("Total size: {}\n".format(format_size(total_size)))
         output_file.write("Torrent infohash: {}\n".format(info_hash))
         output_file.write("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))
-        output_file.write("\nAnnounce URL(s):\n")
-        for url in announce_urls:
+        if announce_urls:
+            output_file.write("Announce URL(s):\n")
+            for url in announce_urls:
                 output_file.write("{}\n".format(url))
+        else:
+                output_file.write("Announce URL(s): N/A\n")
         output_file.write("\nComment: {}\n".format(comment))
         output_file.write("\nPrivate?: {}\n".format(is_private))
     else:
@@ -151,10 +152,13 @@ def display_torrent_info(torrent_file, output_file=None):
         print("Number of files: {}".format(len(file_list)))
         print("Total size: {}".format(format_size(total_size)))
         print("Torrent infohash: {}".format(info_hash))
-        print("Number of Pieces: {} (x {})".format(num_pieces, format_size(piece_size)))  
-        print("\nAnnounce URL(s):")
-        for url in announce_urls:
+        print("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))  
+        if announce_urls:
+            print("Announce URL(s):")
+            for url in announce_urls:
                 print("{}\n".format(url))
+        else:
+                print("Announce URL(s): N/A\n")
         print("Comment: \n{}\n".format(comment))
         print("Private?: {}".format(is_private))
 
