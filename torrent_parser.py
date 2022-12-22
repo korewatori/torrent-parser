@@ -64,7 +64,6 @@ def format_size(size):
 
 
 def clear_console():
-    # Clear the console using the appropriate command for the current operating system
     if os.name == 'nt':
         os.system('cls')
     else:
