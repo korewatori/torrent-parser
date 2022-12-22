@@ -62,6 +62,14 @@ def format_size(size):
         # If the size is larger than 1099511627776 (1 TB), return it in TB
         return "{:.2f} TB".format(size / 1099511627776)
 
+
+def clear_console():
+    # Clear the console using the appropriate command for the current operating system
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 def display_torrent_info(torrent_file, output_file=None):
     with open(torrent_file, "rb") as f:
         torrent_contents = f.read()
@@ -166,6 +174,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=["info", "files", "magnet"], help="The command to execute")
     parser.add_argument("torrent_file", help="The path to the torrent file")
+    parser.add_argument("-c", "--clear", action="store_true", help="Clear the console before running the command")
     parser.add_argument("-o", "--output", help="The file to output the results to")
     parser.add_argument("-s", "--sort-by-smallest", action="store_true", help="Sort the file list by size (smallest first)")
     parser.add_argument("-l", "--sort-by-largest", action="store_true", help="Sort the file list by size (largest first)")
@@ -184,6 +193,8 @@ def generate_magnet_link(torrent_file):
     return magnet_link
 
 if args.command == "files":
+    if args.clear:
+        clear_console()
     file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes)
     if args.output:
         with open(args.output, "w") as f:
@@ -194,6 +205,7 @@ if args.command == "files":
                     f.write("{} ({} bytes)\n".format(file_name, file_size))
                 else:
                     f.write("{} ({})\n".format(file_name, file_size))
+
     else:
         # If no output file is specified, print the list of files to the console
         for file_name, file_size in file_info:
@@ -205,6 +217,8 @@ if args.command == "files":
                 print("{} ({})".format(file_name, file_size))
 
 elif args.command == "info":
+    if args.clear:
+        clear_console()
     if args.output:
         with open(args.output, "w") as f:
             display_torrent_info(args.torrent_file, output_file=f)
@@ -212,6 +226,8 @@ elif args.command == "info":
         display_torrent_info(args.torrent_file)
 
 if args.command == "magnet":
+    if args.clear:
+        clear_console()
     magnet_link = generate_magnet_link(args.torrent_file)
     torrent_file_name = os.path.basename(args.torrent_file)
     print("Magnet link for " + torrent_file_name + " \n" + magnet_link)
