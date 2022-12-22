@@ -174,7 +174,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=["info", "files", "magnet"], help="The command to execute")
     parser.add_argument("torrent_file", help="The path to the torrent file")
-    parser.add_argument("-c", "--clear", action="store_true", help="Clear the console before running the command")
+    parser.add_argument("-cl", "--clear", action="store_true", help="Clear the console before running the command")
     parser.add_argument("-o", "--output", help="The file to output the results to")
     parser.add_argument("-s", "--sort-by-smallest", action="store_true", help="Sort the file list by size (smallest first)")
     parser.add_argument("-l", "--sort-by-largest", action="store_true", help="Sort the file list by size (largest first)")
