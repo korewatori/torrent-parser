@@ -99,6 +99,7 @@ def display_torrent_info(torrent_file, output_file=None):
     is_private = b'private' in decoded_torrent[b'info'] and decoded_torrent[b'info'][b'private'] == 1
     file_info = parse_torrent_file(torrent_file)
     
+    
     # Get the list of files from the decoded torrent
     if b'files' in decoded_torrent[b'info']:
         if isinstance(decoded_torrent[b'info'][b'files'], list):
