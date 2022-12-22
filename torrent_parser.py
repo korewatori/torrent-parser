@@ -142,7 +142,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("\nAnnounce URL(s):\n")
         for url in announce_urls:
                 output_file.write("{}\n".format(url))
-        output_file.write("Comment: {}\n".format(comment))
+        output_file.write("\nComment: {}\n".format(comment))
         output_file.write("\nPrivate?: {}\n".format(is_private))
     else:
         print("\n- - - - - Details for {}: - - - - -\n".format(torrent_file_name))
