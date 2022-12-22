@@ -118,6 +118,11 @@ def display_torrent_info(torrent_file, output_file=None):
         num_pieces = "N/A"
         piece_size = "N/A"
 
+    # Extract the comment from the torrent
+    comment = "None"
+    if b'comment' in decoded_torrent:
+        comment = decoded_torrent[b'comment'].decode('utf-8')
+    
     # Get the file name of the torrent file
     torrent_file_name = os.path.basename(torrent_file)
 
@@ -137,6 +142,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("\nAnnounce URL(s):\n")
         for url in announce_urls:
                 output_file.write("{}\n".format(url))
+        output_file.write("Comment: {}\n".format(comment))
         output_file.write("\nPrivate?: {}\n".format(is_private))
     else:
         print("\n- - - - - Details for {}: - - - - -\n".format(torrent_file_name))
@@ -145,10 +151,11 @@ def display_torrent_info(torrent_file, output_file=None):
         print("Number of files: {}".format(len(file_list)))
         print("Total size: {}".format(format_size(total_size)))
         print("Torrent infohash: {}".format(info_hash))
-        print("Number of Pieces: {} (x {})".format(num_pieces, format_size(piece_size)))       
+        print("Number of Pieces: {} (x {})".format(num_pieces, format_size(piece_size)))  
         print("\nAnnounce URL(s):")
         for url in announce_urls:
                 print("{}\n".format(url))
+        print("Comment: \n{}\n".format(comment))
         print("Private?: {}".format(is_private))
 
 if __name__ == "__main__":
