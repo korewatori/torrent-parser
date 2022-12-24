@@ -90,7 +90,7 @@ def display_torrent_info(torrent_file, output_file=None):
         name = "Unknown"
 
     human_date = "Unknown"
-    unix_timestamp_createdAt = 0
+    unix_timestamp_createdAt = 0 or "Unknown"
     if b'creation date' in decoded_torrent:
         unix_timestamp_createdAt = decoded_torrent[b'creation date']
         human_date = datetime.datetime.fromtimestamp(unix_timestamp_createdAt).strftime("%Y-%m-%d %H:%M:%S")
