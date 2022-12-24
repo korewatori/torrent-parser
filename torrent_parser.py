@@ -175,8 +175,11 @@ def display_torrent_info(torrent_file, output_file=None):
                 output_file.write("{}\n".format(url))
         else:
                 output_file.write("Announce URL(s): N/A\n")
-        output_file.write("\nComment: {}\n".format(comment))
-        output_file.write("\nPrivate?: {}\n".format(is_private))
+        if comment:
+            output_file.write("\nComment: {}\n".format(comment))
+        else:
+            output_file.write("\nComment: None\n")        
+        output_file.write("\nPrivate: {}\n".format(is_private))
     else:
         print("\n- - - - - Details for {}: - - - - -\n".format(torrent_file_name))
         print("Name: {}".format(name))
