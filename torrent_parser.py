@@ -200,6 +200,21 @@ def display_torrent_info(torrent_file, output_file=None):
             print("\nComment: None\n")
         print("Private: {}".format(is_private))
 
+def parse_size(size_str):
+    """Parses a size string in the format '10mb' or '2gb' and returns the size in bytes"""
+    size_str = size_str.lower()
+    if size_str.endswith("kb"):
+        return float(size_str[:-2]) * 1024
+    elif size_str.endswith("mb"):
+        return float(size_str[:-2]) * 1024 * 1024
+    elif size_str.endswith("gb"):
+        return float(size_str[:-2]) * 1024 * 1024 * 1024
+    elif size_str.endswith("tb"):
+        return float(size_str[:-2]) * 1024 * 1024 * 1024 * 1024
+    else:
+        # Assume the size is in bytes if no units are specified
+        return float(size_str[:-2])
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=["info", "files", "magnet"], help="The command to execute")
@@ -212,8 +227,8 @@ if __name__ == "__main__":
     parser.add_argument("--no-file-size", action="store_true", help="Do not show file sizes in the file list")
     parser.add_argument('--no-paths', action='store_true', help='Do not print the file path, only the files (redundant when used on a torrent that has multiple folders with the same file name)')
     parser.add_argument("-q", "--search", help="search the list of files for a particular term")
-    parser.add_argument("--min-size", type=int, help="Only include files equal to or larger than the specified size (in bytes)")
-    parser.add_argument("--max-size", type=int, help="Only include files equal to or smaller than the specified size (in bytes)")
+    parser.add_argument("--min-size", type=parse_size, help="Only include files equal to or larger than the specified size (in bytes)")
+    parser.add_argument("--max-size", type=parse_size, help="Only include files equal to or smaller than the specified size (in bytes)")
     parser.add_argument("--file-extension", help="Filters file list by a specified file extension")
     args = parser.parse_args()
 
