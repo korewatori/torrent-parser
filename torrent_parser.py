@@ -191,8 +191,11 @@ def display_torrent_info(torrent_file, output_file=None):
                 print("{}".format(url))
         else:
                 print("Announce URL(s): N/A\n")
-        print("\nComment: \n{}\n".format(comment))
-        print("Private?: {}".format(is_private))
+        if comment:
+            print("\nComment: {}\n".format(comment))
+        else:
+            print("\nComment: None\n")
+        print("Private: {}".format(is_private))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
