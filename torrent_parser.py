@@ -33,6 +33,8 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, s
     if search:
         file_info = [f for f in file_info if search.lower() in f[0].lower()]
 
+    if show_in_bytes:
+        file_info = [(file_name, "{:,}".format(file_size)) for file_name, file_size in file_info]
 
     if sort_by_size:
         if smallest_first:
