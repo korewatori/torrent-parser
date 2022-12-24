@@ -227,8 +227,8 @@ if __name__ == "__main__":
     parser.add_argument("--no-file-size", action="store_true", help="Do not show file sizes in the file list")
     parser.add_argument('--no-paths', action='store_true', help='Do not print the file path, only the files (redundant when used on a torrent that has multiple folders with the same file name)')
     parser.add_argument("-q", "--search", help="search the list of files for a particular term")
-    parser.add_argument("--min-size", type=parse_size, help="Only include files equal to or larger than the specified size (in bytes)")
-    parser.add_argument("--max-size", type=parse_size, help="Only include files equal to or smaller than the specified size (in bytes)")
+    parser.add_argument("--min-size", type=parse_size, help="Only include files equal to or larger than the specified size")
+    parser.add_argument("--max-size", type=parse_size, help="Only include files equal to or smaller than the specified size")
     parser.add_argument("--file-extension", help="Filters file list by a specified file extension")
     args = parser.parse_args()
 
