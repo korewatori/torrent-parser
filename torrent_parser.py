@@ -146,7 +146,7 @@ def display_torrent_info(torrent_file, output_file=None):
     # Print or write the torrent info to the console or file
     total_size = sum(file[b'length'] for file in file_list)
     if output_file:
-        output_file.write("- - - - - Details for {}: - - - - -\n\n".format(torrent_file_name))
+        output_file.write("- - - - - Details for '{}': - - - - -\n\n".format(torrent_file_name))
         output_file.write("Name: {}\n".format(name))
         output_file.write("Torrent creation date: {} (Unix timestamp: {})\n".format(human_date, format(unix_timestamp_createdAt)))
         output_file.write("Number of files: {}\n".format(len(file_list)))
@@ -202,7 +202,6 @@ def generate_magnet_link(torrent_file):
     return magnet_link
 
 if args.command == "files":
-
     if args.search:
         print("Search results within torrent for: '{}'".format(args.search))
     if args.clear:
@@ -222,10 +221,13 @@ if args.command == "files":
         # If no output file is specified, print the list of files to the console
         for file_name, file_size in file_info:
             if args.no_file_size:
+                print("Contents of torrent:")
                 print("{}".format(file_name))
             elif args.show_in_bytes:
+                print("Contents of torrent:")
                 print("{} ({} bytes)".format(file_name, file_size))
             else:
+                print("Contents of torrent:")
                 print("{} ({})".format(file_name, file_size))
 
 elif args.command == "info":
