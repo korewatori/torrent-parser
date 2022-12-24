@@ -4,7 +4,7 @@ import os
 import datetime
 import hashlib
 
-def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False):
+def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False, search=None):
     with open(torrent_file, "rb") as f:
         torrent_contents = f.read()
 
@@ -27,6 +27,12 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, s
         file_name = "/".join(path_strings)
         file_size = file[b'length']
         file_info.append((file_name, file_size))
+
+
+    # Filter the list of files by search term, if provided
+    if search:
+        file_info = [f for f in file_info if search.lower() in f[0].lower()]
+
 
     if sort_by_size:
         if smallest_first:
@@ -180,6 +186,7 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--sort-by-largest", action="store_true", help="Sort the file list by size (largest first)")
     parser.add_argument("-b", "--show-in-bytes", action="store_true", help="Show file sizes in bytes")
     parser.add_argument("--no-file-size", action="store_true", help="Do not show file sizes in the file list")
+    parser.add_argument("-q", "--search", help="search the list of files for a particular term")
     args = parser.parse_args()
 
 def generate_magnet_link(torrent_file):
@@ -193,9 +200,12 @@ def generate_magnet_link(torrent_file):
     return magnet_link
 
 if args.command == "files":
+
+    if args.search:
+        print("Search results within torrent for: '{}'".format(args.search))
     if args.clear:
         clear_console()
-    file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes)
+    file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes, search=args.search)
     if args.output:
         with open(args.output, "w") as f:
             for file_name, file_size in file_info:
