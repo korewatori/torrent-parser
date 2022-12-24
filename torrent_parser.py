@@ -190,7 +190,7 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--sort-by-largest", action="store_true", help="Sort the file list by size (largest first)")
     parser.add_argument("-b", "--show-in-bytes", action="store_true", help="Show file sizes in bytes")
     parser.add_argument("--no-file-size", action="store_true", help="Do not show file sizes in the file list")
-    parser.add_argument('--no-paths', action='store_true', help='Do not print the file path, only the files (redundant when used on a torrent that has more than one folder with the same file name)')
+    parser.add_argument('--no-paths', action='store_true', help='Do not print the file path, only the files (redundant when used on a torrent that has multiple folders with the same file name)')
     parser.add_argument("-q", "--search", help="search the list of files for a particular term")
     args = parser.parse_args()
 
