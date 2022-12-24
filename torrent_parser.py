@@ -46,6 +46,7 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, s
 
     # Return an empty list if there are no files within the specified size range
     if not file_info:
+        print("No files within the specified size range")
         return []
 
     if sort_by_size:
