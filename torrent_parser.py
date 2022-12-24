@@ -4,7 +4,7 @@ import os
 import datetime
 import hashlib
 
-def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False, search=None, no_paths=False, min_size=None, max_size=None, file_extension=None):
+def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False, search=None, no_paths=False, min_size=0, max_size=float('inf'), file_extension=None):
     with open(torrent_file, "rb") as f:
         torrent_contents = f.read()
 
@@ -43,7 +43,8 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, s
         file_info = [(file_name, file_size) for file_name, file_size in file_info if file_size >= min_size]
     if max_size is not None:
         file_info = [(file_name, file_size) for file_name, file_size in file_info if file_size <= max_size]
-    file_extension = file_extension.lower()
+    if file_extension is not None:
+        file_extension = file_extension.lower()
     if file_extension is not None:
         file_info = [(file_name, file_size) for file_name, file_size in file_info if file_name.lower().endswith(file_extension)]
     # Return an empty list if there are no files within the specified size range
@@ -222,7 +223,10 @@ def generate_magnet_link(torrent_file):
 
 if args.command == "files":
     if args.search:
-        print("Search results within torrent for: '{}'".format(args.search))
+        if args.file_extension:
+            print("Search results within torrent for: '{}' with a file extension of '{}'".format(args.search, args.file_extension))
+        else:
+            print("Search results within torrent for: '{}'".format(args.search))
     if args.clear:
         clear_console()
     file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes, search=args.search, no_paths=args.no_paths, min_size=args.min_size, max_size=args.max_size, file_extension=args.file_extension)
