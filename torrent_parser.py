@@ -204,8 +204,6 @@ def generate_magnet_link(torrent_file):
 if args.command == "files":
     if args.search:
         print("Search results within torrent for: '{}'".format(args.search))
-    else:
-        print("No search term specified")
     if args.clear:
         clear_console()
     file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes, search=args.search)
