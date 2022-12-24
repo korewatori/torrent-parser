@@ -4,7 +4,7 @@ import os
 import datetime
 import hashlib
 
-def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False, search=None, no_paths=False, min_size=None, max_size=None, extension=None):
+def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, show_in_bytes=False, no_file_size=False, search=None, no_paths=False, min_size=None, max_size=None, file_extension=None):
     with open(torrent_file, "rb") as f:
         torrent_contents = f.read()
 
@@ -43,9 +43,9 @@ def parse_torrent_file(torrent_file, sort_by_size=False, smallest_first=False, s
         file_info = [(file_name, file_size) for file_name, file_size in file_info if file_size >= min_size]
     if max_size is not None:
         file_info = [(file_name, file_size) for file_name, file_size in file_info if file_size <= max_size]
-    extension = extension.lower()
-    if extension is not None:
-        file_info = [(file_name, file_size) for file_name, file_size in file_info if file_name.lower().endswith(extension)]
+    file_extension = file_extension.lower()
+    if file_extension is not None:
+        file_info = [(file_name, file_size) for file_name, file_size in file_info if file_name.lower().endswith(file_extension)]
     # Return an empty list if there are no files within the specified size range
     if not file_info:
         print("No files within the specified size range or specified file extension")
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     parser.add_argument("-q", "--search", help="search the list of files for a particular term")
     parser.add_argument("--min-size", type=int, help="Only include files equal to or larger than the specified size (in bytes)")
     parser.add_argument("--max-size", type=int, help="Only include files equal to or smaller than the specified size (in bytes)")
-    parser.add_argument("--extension", help="Filters file list by a specified file extension")
+    parser.add_argument("--file-extension", help="Filters file list by a specified file extension")
     args = parser.parse_args()
 
 def generate_magnet_link(torrent_file):
@@ -225,7 +225,7 @@ if args.command == "files":
         print("Search results within torrent for: '{}'".format(args.search))
     if args.clear:
         clear_console()
-    file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes, search=args.search, no_paths=args.no_paths, min_size=args.min_size, max_size=args.max_size, extension=args.extension)
+    file_info = parse_torrent_file(args.torrent_file, sort_by_size=args.sort_by_smallest or args.sort_by_largest, smallest_first=args.sort_by_smallest, show_in_bytes=args.show_in_bytes, search=args.search, no_paths=args.no_paths, min_size=args.min_size, max_size=args.max_size, file_extension=args.file_extension)
     if args.output:
         with open(args.output, "w") as f:
             for file_name, file_size in file_info:
