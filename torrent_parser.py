@@ -158,6 +158,10 @@ def display_torrent_info(torrent_file, output_file=None):
     comment = "None"
     if b'comment' in decoded_torrent:
         comment = decoded_torrent[b'comment'].decode('utf-8')
+        
+    encoding = "Unknown"
+    if b'encoding' in decoded_torrent:
+        encoding = decoded_torrent[b'encoding']#.decode('utf-8')
     
     # Get the file name of the torrent file
     torrent_file_name = os.path.basename(torrent_file)
@@ -176,6 +180,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("Torrent infohash: {}\n".format(info_hash))
         output_file.write("Created with: {}\n".format(created_with))
         output_file.write("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))
+        output_file.write("Encoding: {}\n".format(encoding))
         if announce_urls:
             output_file.write("\nAnnounce URL(s):\n")
             for url in announce_urls:
@@ -195,7 +200,8 @@ def display_torrent_info(torrent_file, output_file=None):
         print("Total size: {}".format(format_size(total_size)))
         print("Torrent infohash: {}".format(info_hash))
         print("Created with: {}".format(created_with))
-        print("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))  
+        print("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))
+        print("Encoding: {}\n".format(encoding))
         if announce_urls:
             print("Announce URL(s):")
             for url in announce_urls:
