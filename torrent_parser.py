@@ -139,6 +139,12 @@ def display_torrent_info(torrent_file, output_file=None):
     for file in file_list:
         file_size = file[b'length']
         total_size += file_size
+        
+    # Extract the "created with" information from the decoded torrent
+    if b'created by' in decoded_torrent:
+        created_with = decoded_torrent[b'created by'].decode("utf-8")
+    else:
+        created_with = "Unknown"
 
    # Extract the number of pieces and piece size from the torrent
     if b'pieces' in decoded_torrent[b'info']:
@@ -168,6 +174,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("Number of files: {}\n".format(len(file_list)))
         output_file.write("Total size: {}\n".format(format_size(total_size)))
         output_file.write("Torrent infohash: {}\n".format(info_hash))
+        output_file.write("Created with: {}".format(created_with))
         output_file.write("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))
         if announce_urls:
             output_file.write("\nAnnounce URL(s):\n")
@@ -187,6 +194,7 @@ def display_torrent_info(torrent_file, output_file=None):
         print("Number of files: {}".format(len(file_list)))
         print("Total size: {}".format(format_size(total_size)))
         print("Torrent infohash: {}".format(info_hash))
+        print("Created with: {}".format(created_with))
         print("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))  
         if announce_urls:
             print("Announce URL(s):")
