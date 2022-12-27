@@ -178,7 +178,7 @@ def display_torrent_info(torrent_file, output_file=None):
         output_file.write("Number of files: {}\n".format(len(file_list)))
         output_file.write("Total size: {}\n".format(format_size(total_size)))
         output_file.write("Torrent infohash: {}\n".format(info_hash))
-        output_file.write("Created by: {}\n".format(created_with))
+        output_file.write("Created by: {}\n".format(created_by))
         output_file.write("Number of Pieces: {} (x {})\n".format(num_pieces, format_size(piece_size)))
         output_file.write("Encoding: {}\n".format(encoding))
         if announce_urls:
@@ -199,7 +199,7 @@ def display_torrent_info(torrent_file, output_file=None):
         print("Number of files: {}".format(len(file_list)))
         print("Total size: {}".format(format_size(total_size)))
         print("Torrent infohash: {}".format(info_hash))
-        print("Created by: {}".format(created_with))
+        print("Created by: {}".format(created_by))
         print("Number of Pieces: {} (x {})".format(num_pieces, format_size(piece_size)))
         print("Encoding: {}\n".format(encoding))
         if announce_urls:
